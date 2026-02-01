@@ -6,36 +6,6 @@ import java.util.Scanner;
  */
 public class PranavBot {
 
-    /**
-     * Represents a single task with description and completion status. For now it will be included
-     * within this file.
-     */
-    private static class Task {
-        private final String description;
-        private boolean isDone = false;
-
-        public Task(String description) {
-            this.description = description;
-        }
-
-        public void markAsDone() {
-            this.isDone = true;
-        }
-
-        public void markAsNotDone() {
-            this.isDone = false;
-        }
-
-        private String getStatusIcon() {
-            return isDone ? "[X]" : "[ ]";
-        }
-
-        @Override
-        public String toString() {
-            return getStatusIcon() + " " + description;
-        }
-    }
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Task> tasks = new ArrayList<>();  // Stores all tasks with status in a dynamic array
