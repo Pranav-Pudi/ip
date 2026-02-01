@@ -141,6 +141,28 @@ public class PranavBot {
                         }
                         break;
 
+                    case "delete":
+                        if (parts.length < 2 || parts[1].trim().isEmpty()) {
+                            System.out.println("OOPSIE!!! Please specify a task number to delete.");
+                            break;  // ← prevents accessing parts[1] when it doesn't exist
+                        }
+
+                        try {
+                            int index = Integer.parseInt(parts[1].trim()) - 1;
+
+                            if (index < 0 || index >= tasks.size()) {
+                                System.out.println("OOPSIE!!! Invalid task number.");
+                            } else {
+                                Task removed = tasks.remove(index);
+                                System.out.println("Noted. I've removed this task:");
+                                System.out.println(removed);
+                                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("OOPSIE!!! Please enter a valid number for the task.");
+                        }
+                        break;
+
                     default:
                         System.out.println("OOPSIE!!! I'm sorry, but I don't know what that means :-(");
                 }
