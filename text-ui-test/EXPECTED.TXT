@@ -1,7 +1,63 @@
-Hello from
- ____        _        
-|  _ \ _   _| | _____ 
-| | | | | | | |/ / _ \
-| |_| | |_| |   <  __/
-|____/ \__,_|_|\_\___|
-
+Hello! I'm PranavBot.
+What can I do for you?
+You said: list
+Your task list is empty.
+You said: todo read CS2103 notes
+Got it!! I've added this task:
+  [T][ ] read CS2103 notes
+Now you have 1 tasks in the list.
+You said: todo buy groceries
+Got it!! I've added this task:
+  [T][ ] buy groceries
+Now you have 2 tasks in the list.
+You said: deadline submit iP /by Friday 2359
+Got it!! I've added this task:
+  [D][ ] submit iP (by: Friday 2359)
+Now you have 3 tasks in the list.
+You said: event team meeting /from 3pm /to 5pm
+Got it. I've added this task:
+  [E][ ] team meeting (from: 3pm to: 5pm)
+Now you have 4 tasks in the list.
+You said: list
+Here are the tasks in your list:
+1.[T][ ] read CS2103 notes
+2.[T][ ] buy groceries
+3.[D][ ] submit iP (by: Friday 2359)
+4.[E][ ] team meeting (from: 3pm to: 5pm)
+You said: mark 1
+Nice!! I've marked this task as done:
+[T][X] read CS2103 notes
+You said: unmark 1
+OK, I've marked this task as not done yet:
+[T][ ] read CS2103 notes
+You said: list
+Here are the tasks in your list:
+1.[T][ ] read CS2103 notes
+2.[T][ ] buy groceries
+3.[D][ ] submit iP (by: Friday 2359)
+4.[E][ ] team meeting (from: 3pm to: 5pm)
+You said: delete 2
+Noted. I've removed this task:
+[T][ ] buy groceries
+Now you have 3 tasks in the list.
+You said: list
+Here are the tasks in your list:
+1.[T][ ] read CS2103 notes
+2.[D][ ] submit iP (by: Friday 2359)
+3.[E][ ] team meeting (from: 3pm to: 5pm)
+You said: todo
+OOPSIE!!! The description of a todo cannot be empty.
+You said: deadline project /by
+OOPSIE!!! Please include '/by' followed by the deadline.
+You said: event party /from now
+OOPSIE!!! Please include both '/from' and '/to' for event times.
+You said: blah
+OOPSIE!!! I'm sorry, but I don't know what that means :-(
+You said: delete
+OOPSIE!!! Please specify a task number to delete.
+You said: delete abc
+OOPSIE!!! Please enter a valid number for the task.
+You said: delete 999
+OOPSIE!!! Invalid task number.
+You said: bye
+Bye. Hope to see you again soon!

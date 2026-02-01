@@ -1,0 +1,19 @@
+list
+todo read CS2103 notes
+todo buy groceries
+deadline submit iP /by Friday 2359
+event team meeting /from 3pm /to 5pm
+list
+mark 1
+unmark 1
+list
+delete 2
+list
+todo
+deadline project /by
+event party /from now
+blah
+delete
+delete abc
+delete 999
+bye
