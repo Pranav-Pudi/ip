@@ -146,6 +146,8 @@ public class PranavBot {
                 }
             } catch (NumberFormatException e) {
                 System.out.println("OOPSIE!!! Please enter a valid number for the task.");
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("OOPSIE!!! Invalid format or missing argument.");
             } catch (Exception e) {
                 System.out.println("OOPSIE!!! Something went wrong: " + e.getMessage());
             }
