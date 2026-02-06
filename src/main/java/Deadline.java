@@ -1,9 +1,19 @@
-public class Deadline extends Task {
-    private final String by;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
-    public Deadline(String description, String by) {
+
+public class Deadline extends Task {
+    private final LocalDate by;
+
+    public Deadline(String description, String byStr) {
         super(description);
-        this.by = by;
+        try {
+            // Accept yyyy-MM-dd format (minimal requirement)
+            this.by = LocalDate.parse(byStr, DateTimeFormatter.ISO_LOCAL_DATE);
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Invalid date format. Use yyyy-MM-dd");
+        }
     }
 
     @Override
