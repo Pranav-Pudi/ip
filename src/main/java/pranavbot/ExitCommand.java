@@ -1,5 +1,10 @@
+import pranavbot.Command;
+import pranavbot.Storage;
+import pranavbot.TaskList;
+import pranavbot.Ui;
+
 /**
- * Command that exits the program.
+ * pranavbot.Command that exits the program.
  */
 public class ExitCommand extends Command {
 

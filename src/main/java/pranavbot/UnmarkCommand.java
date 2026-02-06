@@ -1,10 +1,15 @@
+import pranavbot.Command;
+import pranavbot.Storage;
+import pranavbot.TaskList;
+import pranavbot.Ui;
+
 /**
- * Command that marks a task as done.
+ * pranavbot.Command that marks a task as not done.
  */
-public class MarkCommand extends Command {
+public class UnmarkCommand extends Command {
     private final String argument;
 
-    public MarkCommand(String argument) {
+    public UnmarkCommand(String argument) {
         this.argument = argument.trim();
     }
 
@@ -17,8 +22,8 @@ public class MarkCommand extends Command {
 
         try {
             int index = Integer.parseInt(argument) - 1;
-            tasks.mark(index);
-            System.out.println("Nice!! I've marked this task as done:");
+            tasks.unmark(index);
+            System.out.println("OK, I've marked this task as not done yet:");
             System.out.println(tasks.get(index));
             storage.save(tasks.getAll());
         } catch (NumberFormatException e) {

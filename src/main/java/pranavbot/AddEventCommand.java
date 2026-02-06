@@ -1,5 +1,10 @@
+import pranavbot.Command;
+import pranavbot.Storage;
+import pranavbot.TaskList;
+import pranavbot.Ui;
+
 /**
- * Command that adds an Event task.
+ * pranavbot.Command that adds an Event task.
  */
 public class AddEventCommand extends Command {
     private final String argument;

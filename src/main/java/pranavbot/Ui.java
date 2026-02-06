@@ -8,7 +8,7 @@ public class Ui {
     }
 
     public void showWelcome() {
-        System.out.println("Hello! I'm PranavBot.");
+        System.out.println("Hello! I'm pranavbot.PranavBot.");
         System.out.println("What can I do for you?");
     }
 

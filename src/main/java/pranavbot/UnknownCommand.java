@@ -1,5 +1,10 @@
+import pranavbot.Command;
+import pranavbot.Storage;
+import pranavbot.TaskList;
+import pranavbot.Ui;
+
 /**
- * Command for unrecognized input.
+ * pranavbot.Command for unrecognized input.
  */
 public class UnknownCommand extends Command {
 

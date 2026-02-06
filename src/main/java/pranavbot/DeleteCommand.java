@@ -1,25 +1,31 @@
+import pranavbot.Command;
+import pranavbot.Storage;
+import pranavbot.TaskList;
+import pranavbot.Ui;
+
 /**
- * Command that marks a task as not done.
+ * pranavbot.Command that deletes a task by index.
  */
-public class UnmarkCommand extends Command {
+public class DeleteCommand extends Command {
     private final String argument;
 
-    public UnmarkCommand(String argument) {
+    public DeleteCommand(String argument) {
         this.argument = argument.trim();
     }
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) {
         if (argument.isEmpty()) {
-            ui.showError("Please specify a task number.");
+            ui.showError("Please specify a task number to delete.");
             return;
         }
 
         try {
             int index = Integer.parseInt(argument) - 1;
-            tasks.unmark(index);
-            System.out.println("OK, I've marked this task as not done yet:");
-            System.out.println(tasks.get(index));
+            Task removed = tasks.remove(index);
+            System.out.println("Noted. I've removed this task:");
+            System.out.println(removed);
+            System.out.println("Now you have " + tasks.size() + " tasks in the list.");
             storage.save(tasks.getAll());
         } catch (NumberFormatException e) {
             ui.showError("Please enter a valid number for the task.");
