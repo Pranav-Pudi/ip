@@ -6,7 +6,7 @@ import java.util.Scanner;
  * The main entry point for PranavBot, a simple task management chatbot.
  */
 public class PranavBot {
-    private static final ArrayList<Task> tasks = new ArrayList<>();
+    private static final TaskList tasks = new TaskList();
     private static final Storage storage = new Storage("data/tasks.txt");
 
     static {
@@ -44,7 +44,7 @@ public class PranavBot {
             try {
                 switch (command) {
                     case "bye":
-                        storage.save(tasks);  // Final save on exit
+                        storage.save(tasks.getAll()); // Final save on exit
                         System.out.println("Bye. Hope to see you again soon!");
                         scanner.close();
                         return;
@@ -73,10 +73,10 @@ public class PranavBot {
                         if (markIndex < 0 || markIndex >= tasks.size()) {
                             System.out.println("OOPSIE!!! Invalid task number.");
                         } else {
-                            tasks.get(markIndex).markAsDone();
+                            tasks.mark(markIndex);
                             System.out.println("Nice!! I've marked this task as done:");
                             System.out.println(tasks.get(markIndex));
-                            storage.save(tasks);
+                            storage.save(tasks.getAll());
                         }
                         break;
 
@@ -89,10 +89,10 @@ public class PranavBot {
                         if (unmarkIndex < 0 || unmarkIndex >= tasks.size()) {
                             System.out.println("OOPSIE!!! Invalid task number.");
                         } else {
-                            tasks.get(unmarkIndex).markAsNotDone();
+                            tasks.unmark(unmarkIndex);
                             System.out.println("OK, I've marked this task as not done yet:");
                             System.out.println(tasks.get(unmarkIndex));
-                            storage.save(tasks);
+                            storage.save(tasks.getAll());
                         }
                         break;
 
@@ -104,7 +104,7 @@ public class PranavBot {
                             System.out.println("Got it!! I've added this task:");
                             System.out.println("  " + tasks.get(tasks.size() - 1));
                             System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-                            storage.save(tasks);
+                            storage.save(tasks.getAll());
                         }
                         break;
 
@@ -125,7 +125,7 @@ public class PranavBot {
                                 System.out.println("Got it!! I've added this task:");
                                 System.out.println("  " + tasks.get(tasks.size() - 1));
                                 System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-                                storage.save(tasks);
+                                storage.save(tasks.getAll());
                             }
                         }
                         break;
@@ -151,6 +151,7 @@ public class PranavBot {
                                 System.out.println("Got it. I've added this task:");
                                 System.out.println("  " + tasks.get(tasks.size() - 1));
                                 System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                                storage.save(tasks.getAll());
                             }
                         }
                         break;
@@ -163,7 +164,6 @@ public class PranavBot {
 
                         try {
                             int index = Integer.parseInt(parts[1].trim()) - 1;
-
                             if (index < 0 || index >= tasks.size()) {
                                 System.out.println("OOPSIE!!! Invalid task number.");
                             } else {
@@ -171,7 +171,7 @@ public class PranavBot {
                                 System.out.println("Noted. I've removed this task:");
                                 System.out.println(removed);
                                 System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-                                storage.save(tasks);
+                                storage.save(tasks.getAll());
                             }
                         } catch (NumberFormatException e) {
                             System.out.println("OOPSIE!!! Please enter a valid number for the task.");
