@@ -2,12 +2,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-private final LocalDate by;
 
 public class Deadline extends Task {
-    private final String by;
+    private final LocalDate by;
 
-    public Deadline(String description, String by) {
+    public Deadline(String description, String byStr) {
         super(description);
         try {
             // Accept yyyy-MM-dd format (minimal requirement)

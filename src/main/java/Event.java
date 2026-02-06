@@ -1,11 +1,20 @@
-public class Event extends Task {
-    private final String from;
-    private final String to;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
-    public Event(String description, String from, String to) {
+public class Event extends Task {
+
+    private final LocalDate from;
+    private final LocalDate to;
+
+    public Event(String description, String fromStr, String toStr) {
         super(description);
-        this.from = from;
-        this.to = to;
+        try {
+            this.from = LocalDate.parse(fromStr, DateTimeFormatter.ISO_LOCAL_DATE);
+            this.to = LocalDate.parse(toStr, DateTimeFormatter.ISO_LOCAL_DATE);
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Invalid date format. Use yyyy-MM-dd");
+        }
     }
 
     @Override
