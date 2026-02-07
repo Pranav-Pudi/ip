@@ -1,5 +1,10 @@
+package pranavbot;
+
 import java.util.Scanner;
 
+/**
+ * Handles all user interaction (input and output).
+ */
 public class Ui {
     private final Scanner scanner;
 
@@ -8,16 +13,19 @@ public class Ui {
     }
 
     public void showWelcome() {
-        System.out.println("Hello! I'm pranavbot.PranavBot.");
+        System.out.println("Hello! I'm PranavBot.");
         System.out.println("What can I do for you?");
     }
 
-    public void showLine() {
-        System.out.println("____________________________________________________________");
-    }
-
+    /**
+     * Reads a line of input from the user.
+     * Returns null if the input stream has ended (e.g., when running via Gradle run with no piped input).
+     */
     public String readCommand() {
-        return scanner.nextLine();
+        if (scanner.hasNextLine()) {
+            return scanner.nextLine();
+        }
+        return null;  // End of input
     }
 
     public void showError(String message) {
@@ -27,5 +35,4 @@ public class Ui {
     public void showGoodbye() {
         System.out.println("Bye. Hope to see you again soon!");
     }
-
 }
