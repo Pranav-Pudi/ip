@@ -1,8 +1,11 @@
+package pranavbot.task;
+
 /**
  * Abstract parent class for all task types.
  */
 public abstract class Task {
-    protected String description;
+    private String description;
+
     protected boolean isDone = false;
 
     public Task(String description) {
@@ -19,6 +22,14 @@ public abstract class Task {
 
     public String getStatusIcon() {
         return isDone ? "[X]" : "[ ]";
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public boolean isDone() {
+        return isDone;
     }
 
     // Used for storage later (Level-7+)
