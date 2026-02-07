@@ -20,6 +20,8 @@ public class Parser {
                 return new AddDeadlineCommand(parts.length > 1 ? parts[1] : "");
             case "event":
                 return new AddEventCommand(parts.length > 1 ? parts[1] : "");
+            case "find":
+                return new FindCommand(parts.length > 1 ? parts[1] : "");
             default:
                 return new UnknownCommand();
         }
