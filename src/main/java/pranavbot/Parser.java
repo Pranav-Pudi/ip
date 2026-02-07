@@ -1,4 +1,17 @@
+package pranavbot;
+
+/**
+ * Parses user input strings into executable Command objects.
+ */
+
 public class Parser {
+
+    /**
+     * Parses a full user command string into the appropriate Command object.
+     *
+     * @param fullCommand the raw input string from the user
+     * @return the corresponding Command instance
+     */
     public static Command parse(String fullCommand) {
         String[] parts = fullCommand.trim().split("\\s+", 2);
         String commandWord = parts[0].toLowerCase();
