@@ -21,7 +21,7 @@ public class DeleteCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
+    public void execute(TaskList tasks, IUi ui, Storage storage) {
         if (argument.isEmpty()) {
             ui.showError("Please specify a task number to delete.");
             return;
@@ -30,9 +30,11 @@ public class DeleteCommand extends Command {
         try {
             int index = Integer.parseInt(argument) - 1;
             Task removed = tasks.remove(index);
-            System.out.println("Noted. I've removed this task:");
-            System.out.println(removed);
-            System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+            ui.showMessage(
+                    "Noted. I've removed this task:\n"
+                            + "  " + removed + "\n"
+                            + "Now you have " + tasks.size() + " tasks in the list."
+            );
             storage.save(tasks.getAll());
         } catch (NumberFormatException e) {
             ui.showError("Please enter a valid number for the task.");

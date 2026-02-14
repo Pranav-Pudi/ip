@@ -5,7 +5,7 @@ import java.util.Scanner;
 /**
  * Handles all user interaction, including displaying messages and reading input.
  */
-public class Ui {
+public class Ui implements IUi {
     private final Scanner scanner;
 
     /**
@@ -52,4 +52,13 @@ public class Ui {
         System.out.println("Bye. Hope to see you again soon!");
     }
 
+    @Override
+    public void showMessage(String message) {
+        System.out.println(message);
+    }
+
+    @Override
+    public void closeApp() {
+        // CLI does nothing - main loop handles exit
+    }
 }

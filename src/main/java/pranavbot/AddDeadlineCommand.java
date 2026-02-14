@@ -20,7 +20,7 @@ public class AddDeadlineCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
+    public void execute(TaskList tasks, IUi ui, Storage storage) {
         if (argument.isEmpty() || !argument.contains("/by ")) {
             ui.showError("Usage: deadline <task> /by <time>");
             return;
@@ -35,9 +35,8 @@ public class AddDeadlineCommand extends Command {
         try {
             Deadline deadline = new Deadline(parts[0].trim(), parts[1].trim());
             tasks.add(deadline);
-            System.out.println("Got it!! I've added this task:");
-            System.out.println("  " + deadline);
-            System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+            ui.showMessage("Got it!! I've added this task:\n  " + deadline);
+            ui.showMessage("Now you have " + tasks.size() + " tasks in the list.");
             storage.save(tasks.getAll());
         } catch (IllegalArgumentException e) {
             ui.showError(e.getMessage());

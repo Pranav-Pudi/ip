@@ -9,7 +9,7 @@ import java.util.Random;
 public class CheerCommand extends Command {
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
+    public void execute(TaskList tasks, IUi ui, Storage storage) {
         try {
             List<String> quotes = Files.readAllLines(Paths.get("data/cheer.txt"));
             if (quotes.isEmpty()) {
@@ -19,9 +19,9 @@ public class CheerCommand extends Command {
 
             Random random = new Random();
             String quote = quotes.get(random.nextInt(quotes.size())).trim();
-            System.out.println("____________________________________________________________");
-            System.out.println(quote);
-            System.out.println("____________________________________________________________");
+            ui.showLine();
+            ui.showMessage(quote);
+            ui.showLine();
         } catch (IOException e) {
             ui.showError("Error loading quotes: " + e.getMessage());
         }

@@ -1,57 +1,69 @@
 package pranavbot;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import pranavbot.task.Task;
-import pranavbot.task.Todo;
-import pranavbot.task.Deadline;
-import pranavbot.task.Event;
 
 /**
- * The main entry point for PranavBot, a simple task management chatbot.
- * Orchestrates the application by initializing dependencies and running the main loop.
+ * Core engine for PranavBot – processes commands and manages tasks.
  */
 public class PranavBot {
-    private static final TaskList tasks = new TaskList();
-    private static final Storage storage = new Storage("data/tasks.txt");
 
-    static {
-        /**
-         * Static initializer that loads tasks from storage on application startup.
-         */
+    private final TaskList tasks;
+    private final Storage storage;
+    private final IUi ui;
+
+    public PranavBot(IUi ui) {
+        this.ui = ui;
+        this.storage = new Storage("data/tasks.txt");
         List<Task> loaded = storage.load();
-        tasks.addAll(loaded);
+        this.tasks = new TaskList(loaded);
+        ui.showLine();
         System.out.println("Loaded " + loaded.size() + " tasks from file.");
+        ui.showLine();
     }
 
     /**
-     * Runs the main application loop, displaying the welcome message
-     * and processing user commands.
-     *
-     * @param args Command line arguments passed to the application.
+     * Processes a single command string and returns the response message.
+     */
+    public String processCommand(String fullCommand) {
+        if (fullCommand.trim().isEmpty()) {
+            return "Please enter a command.";
+        }
+
+        Command command = Parser.parse(fullCommand);
+        command.execute(tasks, ui, storage);
+
+        // Return a summary (customize later to collect full output)
+        return "Command processed.";
+    }
+
+    public TaskList getTasks() {
+        return tasks;
+    }
+
+    public Storage getStorage() {
+        return storage;
+    }
+
+    /**
+     * Text UI mode (fallback/console version).
      */
     public static void main(String[] args) {
-        Ui ui = new Ui();
-        TaskList tasks = new TaskList(storage.load());
-
-        ui.showWelcome();
+        Ui textUi = new Ui();
+        PranavBot bot = new PranavBot(textUi);
+        textUi.showWelcome();
 
         while (true) {
-            String fullCommand = ui.readCommand();
-
+            String fullCommand = textUi.readCommand();
             if (fullCommand.trim().isEmpty()) {
-                ui.showError("Please enter a command.");
+                textUi.showError("Please enter a command.");
                 continue;
             }
-
-            Command command = Parser.parse(fullCommand);
-            command.execute(tasks, ui, storage);
-
-            if (command.isExit()) {
-                break;
-            }
+            bot.processCommand(fullCommand);
+            // Check exit after execution (adjust based on your Command design)
+            // Note: You may need to track exit state differently in GUI mode
         }
     }
 }
+
