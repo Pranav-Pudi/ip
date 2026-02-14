@@ -34,10 +34,6 @@ public class Parser {
                 return new AddDeadlineCommand(parts.length > 1 ? parts[1] : "");
             case "event":
                 return new AddEventCommand(parts.length > 1 ? parts[1] : "");
-            case "cheer":
-                return new CheerCommand();
-            case "find":
-                return new FindCommand(parts.length > 1 ? parts[1] : "");
             default:
                 return new UnknownCommand();
         }
