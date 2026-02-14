@@ -1,3 +1,5 @@
+package pranavbot.task;
+
 /**
  * Abstract parent class for all task types.
  */

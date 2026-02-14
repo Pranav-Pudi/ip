@@ -1,6 +1,13 @@
+package pranavbot;
+
 import pranavbot.Storage;
 import pranavbot.TaskList;
 import pranavbot.Ui;
+
+import pranavbot.task.Task;
+import pranavbot.task.Todo;
+import pranavbot.task.Deadline;
+import pranavbot.task.Event;
 
 /**
  * Command that adds a Deadline task.

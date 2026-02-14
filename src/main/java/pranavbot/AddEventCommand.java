@@ -1,8 +1,14 @@
+package pranavbot;
+
 import pranavbot.Command;
 import pranavbot.Storage;
 import pranavbot.TaskList;
 import pranavbot.Ui;
 
+import pranavbot.task.Task;
+import pranavbot.task.Todo;
+import pranavbot.task.Deadline;
+import pranavbot.task.Event;
 /**
  * pranavbot.Command that adds an Event task.
  */
