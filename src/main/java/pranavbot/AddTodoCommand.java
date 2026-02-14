@@ -21,7 +21,7 @@ public class AddTodoCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
+    public void execute(TaskList tasks, IUi ui, Storage storage) {
         if (argument.isEmpty()) {
             ui.showError("The description of a todo cannot be empty.");
             return;
@@ -29,9 +29,8 @@ public class AddTodoCommand extends Command {
 
         Todo todo = new Todo(argument);
         tasks.add(todo);
-        System.out.println("Got it!! I've added this task:");
-        System.out.println("  " + todo);
-        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+        ui.showMessage("Got it!! I've added this task:\n  " + todo
+                + "\nNow you have " + tasks.size() + " tasks in the list.");
         storage.save(tasks.getAll());
     }
 

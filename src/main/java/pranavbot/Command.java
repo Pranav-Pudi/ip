@@ -13,7 +13,7 @@ public abstract class Command {
      * @param ui       the user interface for displaying messages
      * @param storage  the storage handler for saving changes
      */
-    public abstract void execute(TaskList tasks, Ui ui, Storage storage);
+    public abstract void execute(TaskList tasks, IUi ui, Storage storage);
 
     /**
      * Indicates whether this command should terminate the program.

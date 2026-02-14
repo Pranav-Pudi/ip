@@ -20,7 +20,7 @@ public class AddEventCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
+    public void execute(TaskList tasks, IUi ui, Storage storage) {
         if (argument.isEmpty() || !argument.contains("/from ") || !argument.contains("/to ")) {
             ui.showError("Usage: event <task> /from <start> /to <end>");
             return;
@@ -42,9 +42,11 @@ public class AddEventCommand extends Command {
         try {
             Event event = new Event(desc, timeParts[0].trim(), timeParts[1].trim());
             tasks.add(event);
-            System.out.println("Got it. I've added this task:");
-            System.out.println("  " + event);
-            System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+            ui.showMessage(
+                    "Got it. I've added this task:\n"
+                            + "  " + event + "\n"
+                            + "Now you have " + tasks.size() + " tasks in the list."
+            );
             storage.save(tasks.getAll());
         } catch (IllegalArgumentException e) {
             ui.showError(e.getMessage());
