@@ -27,7 +27,10 @@ public class PranavBot {
     }
 
     /**
-     * Runs the main application loop, displaying the welcome message and processing user commands.
+     * Runs the main application loop, displaying the welcome message
+     * and processing user commands.
+     *
+     * @param args Command line arguments passed to the application.
      */
     public static void main(String[] args) {
         Ui ui = new Ui();

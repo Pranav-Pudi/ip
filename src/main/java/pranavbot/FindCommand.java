@@ -1,5 +1,7 @@
 package pranavbot;
 
+import pranavbot.task.Task;
+
 import java.util.ArrayList;
 import java.util.List;
 
