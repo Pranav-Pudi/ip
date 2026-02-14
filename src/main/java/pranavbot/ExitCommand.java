@@ -12,7 +12,10 @@ public class ExitCommand extends Command {
 
     @Override
     public void execute(TaskList tasks, IUi ui, Storage storage) {
-        storage.save(tasks.getAll());
+        if (storage != null) {
+            storage.save(tasks.getAll());
+        }
+
         ui.showGoodbye();
         ui.closeApp();  // This calls the IUi method we added
     }
