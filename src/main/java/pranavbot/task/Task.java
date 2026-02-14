@@ -11,6 +11,10 @@ public abstract class Task {
         this.description = description;
     }
 
+    public String getDescription() {
+        return this.description;
+    }
+
     public void markAsDone() {
         this.isDone = true;
     }
