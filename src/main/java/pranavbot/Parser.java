@@ -1,16 +1,17 @@
 package pranavbot;
 
 /**
- * Parses user input strings into executable Command objects.
+ * Represents a parser that interprets user input commands.
+ * Handles the parsing of raw string input into executable Command objects.
  */
 
 public class Parser {
-
     /**
-     * Parses a full user command string into the appropriate Command object.
+     * Parses the full command string provided by the user and returns the corresponding
+     * command object to be executed.
      *
-     * @param fullCommand the raw input string from the user
-     * @return the corresponding Command instance
+     * @param fullCommand The raw input string from the user.
+     * @return A {@link Command} object corresponding to the parsed command word.
      */
     public static Command parse(String fullCommand) {
         String[] parts = fullCommand.trim().split("\\s+", 2);
@@ -33,6 +34,10 @@ public class Parser {
                 return new AddDeadlineCommand(parts.length > 1 ? parts[1] : "");
             case "event":
                 return new AddEventCommand(parts.length > 1 ? parts[1] : "");
+            case "cheer":
+                return new CheerCommand();
+            case "find":
+                return new FindCommand(parts.length > 1 ? parts[1] : "");
             default:
                 return new UnknownCommand();
         }
