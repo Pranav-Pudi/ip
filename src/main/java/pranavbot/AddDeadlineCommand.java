@@ -37,7 +37,9 @@ public class AddDeadlineCommand extends Command {
             tasks.add(deadline);
             ui.showMessage("Got it!! I've added this task:\n  " + deadline);
             ui.showMessage("Now you have " + tasks.size() + " tasks in the list.");
-            storage.save(tasks.getAll());
+            if (storage != null) {
+                storage.save(tasks.getAll());
+            }
         } catch (IllegalArgumentException e) {
             ui.showError(e.getMessage());
         }
