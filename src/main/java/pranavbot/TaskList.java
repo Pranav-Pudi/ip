@@ -28,10 +28,29 @@ public class TaskList {
 
     /**
      * Adds a task to the list.
-     * @param task the task to add
+     * If index is provided, replaces the task at that position (0-based).
+     * If index is -1 (default), appends the task to the end.
+     *
+     * @param task  the task to add or replace with
+     * @param index optional 0-based index where to place/replace the task; use -1 to append
+     * @throws IndexOutOfBoundsException if index is out of range (and not -1)
+     */
+    public void add(Task task, int index) {
+        if (index == -1) {
+            tasks.add(task);           // append to end (original behavior)
+        } else {
+            if (index < 0 || index >= tasks.size()) {
+                throw new IndexOutOfBoundsException("Invalid task index: " + (index + 1));
+            }
+            tasks.set(index, task);    // replace at position
+        }
+    }
+
+    /**
+     * Convenience overload: appends a task to the end (original signature).
      */
     public void add(Task task) {
-        tasks.add(task);
+        add(task, -1);
     }
 
     public void addAll(List<Task> additionalTasks) {
