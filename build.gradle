@@ -53,3 +53,17 @@ shadowJar {
 run{
     standardInput = System.in
 }
+
+tasks.named('shadowJar') {
+    archiveBaseName.set('pranavbot')
+    archiveClassifier.set('all')
+    archiveVersion.set('')   // optional – removes version from filename
+    manifest {
+        attributes 'Main-Class': 'pranavbot.Launcher'
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
