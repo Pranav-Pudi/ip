@@ -38,6 +38,8 @@ public class Parser {
                 return new CheerCommand();
             case "find":
                 return new FindCommand(parts.length > 1 ? parts[1] : "");
+            case "update":
+                return new UpdateCommand(parts.length > 1 ? parts[1] : "");
             default:
                 return new UnknownCommand();
         }
