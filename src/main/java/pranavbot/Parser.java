@@ -14,6 +14,8 @@ public class Parser {
      * @return A {@link Command} object corresponding to the parsed command word.
      */
     public static Command parse(String fullCommand) {
+        assert fullCommand != null : "Command string cannot be null";
+
         String[] parts = fullCommand.trim().split("\\s+", 2);
         String commandWord = parts[0].toLowerCase();
 

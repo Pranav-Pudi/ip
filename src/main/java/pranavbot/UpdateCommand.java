@@ -71,6 +71,7 @@ public class UpdateCommand extends Command {
         }
 
         Task oldTask = tasks.get(targetIndex);
+        assert oldTask != null : "Task at valid index should never be null";
         String descToUse = (newDescription != null) ? newDescription : oldTask.getDescription();
 
         Task updatedTask;

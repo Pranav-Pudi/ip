@@ -14,6 +14,8 @@ public class PranavBot {
     private final IUi ui;
 
     public PranavBot(IUi ui) {
+        assert ui != null : "UI handler cannot be null";
+
         this.ui = ui;
         this.storage = new Storage("data/tasks.txt");
         List<Task> loaded = storage.load();

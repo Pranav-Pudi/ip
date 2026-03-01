@@ -58,9 +58,8 @@ public class TaskList {
     }
 
     public Task get(int index) {
-        if (index < 0 || index >= tasks.size()) {
-            throw new IndexOutOfBoundsException("Invalid task number");
-        }
+        assert index >= 0 : "Negative index is invalid";
+        assert index < tasks.size() : "Index out of bounds: " + index + " (size=" + tasks.size() + ")";
         return tasks.get(index);
     }
 
