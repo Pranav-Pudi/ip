@@ -68,4 +68,22 @@ class TaskListTest {
         assertEquals(1, taskList.size());
         assertEquals(2, copy.size());
     }
+
+    @Test
+    void replace_validIndex_updatesTaskAtPosition() {
+        TaskList list = new TaskList();
+        list.add(new Todo("old task"));
+
+        Todo newTask = new Todo("updated task");
+        list.add(newTask, 0);
+
+        assertEquals(1, list.size());
+        assertEquals("updated task", list.get(0).getDescription());
+    }
+
+    @Test
+    void replace_invalidIndex_throwsException() {
+        TaskList list = new TaskList();
+        assertThrows(IndexOutOfBoundsException.class, () -> list.add(new Todo("test"),0));
+    }
 }
