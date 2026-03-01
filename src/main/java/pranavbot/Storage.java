@@ -15,20 +15,30 @@ import pranavbot.task.Deadline;
 import pranavbot.task.Event;
 
 /**
- * Handles loading tasks from and saving tasks to a file.
+ * Manages persistent storage of tasks using a plain-text file.
+ * <p>
+ * This class handles reading tasks from the file on startup and writing
+ * the current task list back to the file after any modification.
+ * It uses a simple pipe-delimited format and skips malformed lines silently.
+ * </p>
  */
 public class Storage {
+
+    private static final String TASK_FILE_PATH = "data/tasks.txt";
+    private static final String FIELD_DELIMITER = " | ";
+    private static final String DONE_INDICATOR = "1";
+    private static final String TYPE_TODO = "T";
+    private static final String TYPE_DEADLINE = "D";
+    private static final String TYPE_EVENT = "E";
+
     private final Path filePath;
 
     /**
-     * Constructs a Storage instance with the specified file path.
-     * Creates the file and parent directories if they do not exist.
-     *
-     * @param filePathString the path to the storage file
+     * Constructs a Storage instance for the default task file.
+     * Creates parent directories and the file itself if they do not exist.
      */
-    public Storage(String filePathString) {
-        this.filePath = Paths.get(filePathString);
-        // Create parent directories and file if they do not exist
+    public Storage() {
+        this.filePath = Paths.get(TASK_FILE_PATH);
         try {
             Files.createDirectories(filePath.getParent());
             if (!Files.exists(filePath)) {
@@ -40,50 +50,43 @@ public class Storage {
     }
 
     /**
-     * Loads tasks from the file.
-     * @return List of loaded tasks (empty list if file is missing or empty)
+     * Loads tasks from the storage file.
+     * <p>
+     * Empty lines and malformed entries are skipped.
+     * If the file does not exist, an empty list is returned.
+     * </p>
+     *
+     * @return list of parsed tasks (never null)
      */
     public List<Task> load() {
         List<Task> loadedTasks = new ArrayList<>();
 
         if (!Files.exists(filePath)) {
-            return loadedTasks; // File doesn't exist yet → start empty
+            return loadedTasks;
         }
 
         try (BufferedReader reader = Files.newBufferedReader(filePath)) {
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.trim().isEmpty()) continue;
-
-                String[] parts = line.split(" \\| ");
-                if (parts.length < 3) continue; // Skip malformed lines
-
-                String type = parts[0].trim();
-                boolean isDone = "1".equals(parts[1].trim());
-                String description = parts[2].trim();
-
-                Task task = null;
-                switch (type) {
-                    case "T":
-                        task = new Todo(description);
-                        break;
-                    case "D":
-                        if (parts.length >= 4) {
-                            task = new Deadline(description, parts[3].trim());
-                        }
-                        break;
-                    case "E":
-                        if (parts.length >= 5) {
-                            task = new Event(description, parts[3].trim(), parts[4].trim());
-                        }
-                        break;
-                    default:
-                        // Skip unknown types
-                        break;
+                line = line.trim();
+                if (line.isEmpty()) {
+                    continue;
                 }
 
+                String[] parts = line.split(FIELD_DELIMITER);
+                if (parts.length < 3) {
+                    continue;
+                }
+
+                String type = parts[0].trim();
+                boolean isDone = DONE_INDICATOR.equals(parts[1].trim());
+                String description = parts[2].trim();
+
+                Task task = createTaskFromParts(type, description, parts);
                 if (task != null) {
-                    if (isDone) task.markAsDone();
+                    if (isDone) {
+                        task.markAsDone();
+                    }
                     loadedTasks.add(task);
                 }
             }
@@ -94,11 +97,31 @@ public class Storage {
         return loadedTasks;
     }
 
+    private Task createTaskFromParts(String type, String description, String[] parts) {
+        switch (type) {
+            case TYPE_TODO:
+                return new Todo(description);
+            case TYPE_DEADLINE:
+                return parts.length >= 4 ? new Deadline(description, parts[3].trim()) : null;
+            case TYPE_EVENT:
+                return parts.length >= 5 ? new Event(description, parts[3].trim(), parts[4].trim()) : null;
+            default:
+                return null;
+        }
+    }
+
     /**
-     * Saves the current list of tasks to the file.
-     * @param tasks the list of tasks to save
+     * Saves the provided list of tasks to the storage file.
+     * <p>
+     * The file is completely overwritten. Each task is written in its file format
+     * on a separate line.
+     * </p>
+     *
+     * @param tasks the tasks to save (must not be null)
      */
     public void save(List<Task> tasks) {
+        assert tasks != null : "Cannot save null task list";
+
         try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
             for (Task task : tasks) {
                 writer.write(task.toFileFormat());
