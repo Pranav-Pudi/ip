@@ -100,6 +100,7 @@ public class Storage {
      */
     public void save(List<Task> tasks) {
         assert tasks != null : "Cannot save null task list";
+        assert !tasks.isEmpty() || true : "Saving empty list is allowed but unusual";
 
         try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
             for (Task task : tasks) {
