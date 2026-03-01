@@ -25,7 +25,7 @@ import pranavbot.task.Event;
 public class Storage {
 
     private static final String TASK_FILE_PATH = "data/tasks.txt";
-    private static final String FIELD_DELIMITER = " | ";
+    private static final String FIELD_DELIMITER = "\\s\\|\\s";
     private static final String DONE_INDICATOR = "1";
     private static final String TYPE_TODO = "T";
     private static final String TYPE_DEADLINE = "D";
@@ -39,6 +39,25 @@ public class Storage {
      */
     public Storage() {
         this.filePath = Paths.get(TASK_FILE_PATH);
+        try {
+            Files.createDirectories(filePath.getParent());
+            if (!Files.exists(filePath)) {
+                Files.createFile(filePath);
+            }
+        } catch (IOException e) {
+            System.out.println("OOPSIE!!! Error creating data file/directory: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Constructs Storage using a custom file path (useful for testing).
+     */
+    public Storage(String filePathString) {
+        this.filePath = Paths.get(filePathString);
+        initializeFile();
+    }
+
+    private void initializeFile() {
         try {
             Files.createDirectories(filePath.getParent());
             if (!Files.exists(filePath)) {
@@ -98,15 +117,23 @@ public class Storage {
     }
 
     private Task createTaskFromParts(String type, String description, String[] parts) {
-        switch (type) {
-            case TYPE_TODO:
-                return new Todo(description);
-            case TYPE_DEADLINE:
-                return parts.length >= 4 ? new Deadline(description, parts[3].trim()) : null;
-            case TYPE_EVENT:
-                return parts.length >= 5 ? new Event(description, parts[3].trim(), parts[4].trim()) : null;
-            default:
-                return null;
+        try {
+            switch (type) {
+                case TYPE_TODO:
+                    return new Todo(description);
+                case TYPE_DEADLINE:
+                    String by = (parts.length >= 4) ? parts[3].trim() : "";
+                    return new Deadline(description, by);  // Deadline constructor should handle empty by gracefully if possible
+                case TYPE_EVENT:
+                    String from = (parts.length >= 4) ? parts[3].trim() : "";
+                    String to = (parts.length >= 5) ? parts[4].trim() : "";
+                    return new Event(description, from, to);  // Event constructor should handle empty from/to
+                default:
+                    return null;
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Skipping invalid task line: " + String.join(FIELD_DELIMITER, parts));
+            return null;
         }
     }
 

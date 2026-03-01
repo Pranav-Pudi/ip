@@ -15,7 +15,7 @@ public class PranavBot {
 
     public PranavBot(IUi ui) {
         this.ui = ui;
-        this.storage = new Storage("data/tasks.txt");
+        this.storage = new Storage();
         List<Task> loaded = storage.load();
         this.tasks = new TaskList(loaded);
         ui.showLine();

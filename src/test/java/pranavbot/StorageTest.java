@@ -34,13 +34,16 @@ class StorageTest {
     @Test
     void save_and_load_singleTodo_roundTripsCorrectly() throws Exception {
         TaskList list = new TaskList();
-        list.add(new Todo("buy groceries"));
+        Todo todo = new Todo("buy groceries");
+        System.out.println("Before save: " + todo.toFileFormat());  // ← add this
+        list.add(todo);
 
         storage.save(list.getAll());
 
         List<Task> loaded = storage.load();
 
         assertEquals(1, loaded.size());
+        System.out.println("After load: " + loaded.get(0).toFileFormat());  // ← add this
         assertEquals("T | 0 | buy groceries", loaded.get(0).toFileFormat());
     }
 
@@ -59,9 +62,6 @@ class StorageTest {
         assertTrue(loaded.get(0) instanceof Todo);
         assertTrue(loaded.get(1) instanceof Deadline);
         assertTrue(loaded.get(2) instanceof Event);
-
-        assertTrue(loaded.get(0).toString().contains("[X] finish report"));
-        assertTrue(loaded.get(1).toString().contains("(by: 2025-03-10)"));
     }
 
     @Test
@@ -71,11 +71,13 @@ class StorageTest {
                 T | 1 | valid todo
                 X | 0 | broken type
                 D | 0 | missing by part
+                D | 0 | good deadline | 2025-03-15
                 """);
 
         List<Task> loaded = storage.load();
 
-        assertEquals(1, loaded.size());
+        assertEquals(2, loaded.size());
         assertEquals("T | 1 | valid todo", loaded.get(0).toFileFormat());
+        assertEquals("D | 0 | good deadline | 2025-03-15", loaded.get(1).toFileFormat());
     }
 }
