@@ -1,5 +1,6 @@
 package pranavbot.gui;
 
+import javafx.animation.TranslateTransition;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -31,17 +32,17 @@ public class GuiUi implements IUi {
 
     @Override
     public void showWelcome() {
-        appendMessage("Hello! I'm PranavBot.\nWhat can I do for you?", false);
+        appendMessage("Hey there! I'm Pixel 🤖, your task assistant. Ready to tackle your day?", false);
     }
 
     @Override
     public void showError(String message) {
-        appendMessage("OOPSIE!!! " + message, false);
+        appendStyledMessage("Uh-oh! " + message, false, "#FF6B6B", true);
     }
 
     @Override
     public void showGoodbye() {
-        appendMessage("Bye. Hope to see you again soon!", false);
+        appendMessage("Catch you later! Keep crushing those tasks 💪", false);
     }
 
     @Override
@@ -57,25 +58,39 @@ public class GuiUi implements IUi {
      * @param isUser true = user, false = bot
      */
     public void appendMessage(String message, boolean isUser) {
-
         DialogBox dialog = new DialogBox(message, isUser ? userImage : botImage);
 
         if (isUser) {
             dialog.flip();
         }
 
+        // Add to container first so transitions can reference it
         dialogContainer.getChildren().add(dialog);
 
+        // Fade-in animation
         FadeTransition fade = new FadeTransition(Duration.millis(250), dialog);
         fade.setFromValue(0);
         fade.setToValue(1);
         fade.play();
+
+        // Slide-in animation from left or right depending on sender
+        TranslateTransition slide = new TranslateTransition(Duration.millis(250), dialog);
+        slide.setFromX(isUser ? 50 : -50);  // User messages slide in from right, bot from left
+        slide.setToX(0);
+        slide.play();
     }
 
     @Override
     public void appendMessages(ArrayList<String> messages, boolean isUser) {
         String combined = String.join("\n", messages);
         appendMessage(combined, isUser);
+    }
+
+    private void appendStyledMessage(String message, boolean isUser, String bgColor, boolean whiteText) {
+        DialogBox dialog = new DialogBox(message, isUser ? userImage : botImage);
+        if (isUser) dialog.flip();
+        dialog.setStyle("-fx-background-color: " + bgColor + "; -fx-text-fill: " + (whiteText ? "white;" : "black;"));
+        dialogContainer.getChildren().add(dialog);
     }
 
     // Inner class for chat bubbles
