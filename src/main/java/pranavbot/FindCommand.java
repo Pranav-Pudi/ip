@@ -27,11 +27,11 @@ public class FindCommand extends Command {
         }
 
         if (matches.isEmpty()) {
-            System.out.println("No matching tasks found.");
+            ui.showMessage("No matching tasks found.");
         } else {
             ui.showMessage("Here are the matching tasks in your list:");
             for (int i = 0; i < matches.size(); i++) {
-                System.out.println((i + 1) + "." + matches.get(i));
+                ui.showMessage((i + 1) + "." + matches.get(i));
             }
         }
     }

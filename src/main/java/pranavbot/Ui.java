@@ -1,6 +1,7 @@
 package pranavbot;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 
 /**
  * Handles all user interaction, including displaying messages and reading input.
@@ -60,5 +61,12 @@ public class Ui implements IUi {
     @Override
     public void closeApp() {
         // CLI does nothing - main loop handles exit
+    }
+
+    @Override
+    public void appendMessages(ArrayList<String> messages, boolean isUser) {
+        for (String message : messages) {
+            System.out.println(message);
+        }
     }
 }

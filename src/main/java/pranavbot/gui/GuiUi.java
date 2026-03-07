@@ -9,6 +9,11 @@ import javafx.scene.layout.VBox;
 import javafx.collections.FXCollections;
 import javafx.application.Platform;
 import javafx.stage.Stage;
+import javafx.animation.FadeTransition;
+import javafx.util.Duration;
+
+import java.util.ArrayList;
+
 
 import pranavbot.IUi;
 
@@ -52,22 +57,25 @@ public class GuiUi implements IUi {
      * @param isUser true = user, false = bot
      */
     public void appendMessage(String message, boolean isUser) {
-        // For task lists, keep as ONE dialog box with line breaks
-        if (message.contains("Here are the tasks") || message.contains("Here are the matching tasks")) {
-            DialogBox dialog = new DialogBox(message, isUser ? userImage : botImage);  // Keep \n
-            if (isUser) dialog.flip();
-            dialogContainer.getChildren().add(dialog);
-        } else {
-            // Split other messages normally
-            String[] lines = message.split("\n");
-            for (String line : lines) {
-                if (!line.trim().isEmpty()) {
-                    DialogBox dialog = new DialogBox(line, isUser ? userImage : botImage);
-                    if (isUser) dialog.flip();
-                    dialogContainer.getChildren().add(dialog);
-                }
-            }
+
+        DialogBox dialog = new DialogBox(message, isUser ? userImage : botImage);
+
+        if (isUser) {
+            dialog.flip();
         }
+
+        dialogContainer.getChildren().add(dialog);
+
+        FadeTransition fade = new FadeTransition(Duration.millis(250), dialog);
+        fade.setFromValue(0);
+        fade.setToValue(1);
+        fade.play();
+    }
+
+    @Override
+    public void appendMessages(ArrayList<String> messages, boolean isUser) {
+        String combined = String.join("\n", messages);
+        appendMessage(combined, isUser);
     }
 
     // Inner class for chat bubbles
@@ -78,10 +86,16 @@ public class GuiUi implements IUi {
         public DialogBox(String message, Image img) {
             text = new Label(message);
             text.setWrapText(true);
+            text.setMaxWidth(350);
 
+            text.setStyle(
+                    "-fx-background-color: #E5E5EA;" +
+                            "-fx-background-radius: 15;" +
+                            "-fx-padding: 10;"
+            );
             displayPicture = img != null ? new ImageView(img) : new ImageView();
-            displayPicture.setFitWidth(50);
-            displayPicture.setFitHeight(50);
+            displayPicture.setFitWidth(40);
+            displayPicture.setFitHeight(40);
 
             this.setSpacing(10);
             this.getChildren().addAll(displayPicture, text);
@@ -91,6 +105,13 @@ public class GuiUi implements IUi {
         public void flip() {
             this.setAlignment(Pos.TOP_RIGHT);
             FXCollections.reverse(this.getChildren());
+
+            text.setStyle(
+                    "-fx-background-color: #0B93F6;" +
+                            "-fx-text-fill: white;" +
+                            "-fx-background-radius: 15;" +
+                            "-fx-padding: 10;"
+            );
         }
     }
 
@@ -106,12 +127,4 @@ public class GuiUi implements IUi {
             stage.close();
         });
     }
-
 }
-
-
-
-
-
-
-

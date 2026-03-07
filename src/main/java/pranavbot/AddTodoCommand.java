@@ -10,6 +10,8 @@ import pranavbot.task.Todo;
 import pranavbot.task.Deadline;
 import pranavbot.task.Event;
 
+import java.util.ArrayList;
+
 /**
  * pranavbot.Command that adds a Todo task.
  */
@@ -29,10 +31,12 @@ public class AddTodoCommand extends Command {
 
         Todo todo = new Todo(argument);
         tasks.add(todo);
-        ui.showMessage("Got it!!");
-        ui.showMessage("I've added this task:");
-        ui.showMessage("  " + todo);
-        ui.showMessage("Now you have " + tasks.size() + " tasks in the list.");
+        ArrayList<String> output = new ArrayList<>();
+        output.add("Got it!!");
+        output.add("I've added this task:");
+        output.add("  " + todo);
+        output.add("Now you have " + tasks.size() + " tasks in the list.");
+        ui.appendMessages(output, false);
         if (storage != null) {
             storage.save(tasks.getAll());
         }

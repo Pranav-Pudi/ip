@@ -9,6 +9,8 @@ import pranavbot.task.Todo;
 import pranavbot.task.Deadline;
 import pranavbot.task.Event;
 
+import java.util.ArrayList;
+
 /**
  * Command that adds a Deadline task.
  */
@@ -35,8 +37,10 @@ public class AddDeadlineCommand extends Command {
         try {
             Deadline deadline = new Deadline(parts[0].trim(), parts[1].trim());
             tasks.add(deadline);
-            ui.showMessage("Got it!! I've added this task:\n  " + deadline);
-            ui.showMessage("Now you have " + tasks.size() + " tasks in the list.");
+            ArrayList<String> output = new ArrayList<>();
+            output.add("Got it!! I've added this task:\n  " + deadline);
+            output.add("Now you have " + tasks.size() + " tasks in the list.");
+            ui.appendMessages(output, false);
             if (storage != null) {
                 storage.save(tasks.getAll());
             }

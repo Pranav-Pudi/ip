@@ -21,7 +21,7 @@ public class PranavBot {
         List<Task> loaded = storage.load();
         this.tasks = new TaskList(loaded);
         ui.showLine();
-        System.out.println("Loaded " + loaded.size() + " tasks from file.");
+        ui.showMessage("Loaded " + loaded.size() + " tasks from file.");
         ui.showLine();
     }
 

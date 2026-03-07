@@ -6,9 +6,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
+
+import java.util.List;
+import java.util.ArrayList;
+
 import pranavbot.PranavBot;
 
 public class Gui extends Application {
@@ -26,6 +33,7 @@ public class Gui extends Application {
 
     @Override
     public void start(Stage stage) {
+
         // Load avatars
         try {
             userImage = new Image(getClass().getResourceAsStream("/images/user.png"));
@@ -36,42 +44,58 @@ public class Gui extends Application {
             botImage = null;
         }
 
-        // Layout
+        // Chat container
         dialogContainer = new VBox(10);
+        dialogContainer.setStyle("-fx-padding: 15;");
+
         scrollPane = new ScrollPane(dialogContainer);
         scrollPane.setFitToWidth(true);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setStyle("-fx-background: white; -fx-border-color: transparent;");
 
+        // Input area
         userInput = new TextField();
+        userInput.setPromptText("Type a command...");
+
         sendButton = new Button("Send");
+        sendButton.setStyle(
+                "-fx-background-color: #4CAF50;" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-weight: bold;"
+        );
 
-        AnchorPane mainLayout = new AnchorPane();
-        mainLayout.getChildren().addAll(scrollPane, userInput, sendButton);
+        HBox inputBar = new HBox(10, userInput, sendButton);
+        inputBar.setStyle(
+                "-fx-padding: 10;" +
+                        "-fx-background-color: #f5f5f5;"
+        );
 
-        AnchorPane.setTopAnchor(scrollPane, 1.0);
-        AnchorPane.setBottomAnchor(userInput, 1.0);
-        AnchorPane.setLeftAnchor(userInput, 1.0);
-        AnchorPane.setRightAnchor(sendButton, 1.0);
-        AnchorPane.setBottomAnchor(sendButton, 40.0);
+        // Make text field expand
+        HBox.setHgrow(userInput, Priority.ALWAYS);
 
-        scrollPane.setPrefSize(385, 535);
-        userInput.setPrefWidth(325);
-        sendButton.setPrefWidth(55);
+        // Root layout
+        VBox root = new VBox(scrollPane, inputBar);
+        VBox.setVgrow(scrollPane, Priority.ALWAYS);
 
-        scene = new Scene(mainLayout, 400, 600);
-        stage.setScene(scene);
+        scene = new Scene(root, 450, 650);
+
         stage.setTitle("PranavBot Chat");
-        stage.setResizable(false);
+        stage.setScene(scene);
         stage.show();
 
-        // GUI handler & bot
+        // Initialize bot
         guiUi = new GuiUi(dialogContainer, userImage, botImage);
-        bot = new PranavBot(guiUi); // now bot writes directly to GuiUi
+        bot = new PranavBot(guiUi);
 
         guiUi.showWelcome();
 
-        dialogContainer.heightProperty().addListener((obs) -> scrollPane.setVvalue(1.0));
+        // Auto scroll
+        dialogContainer.heightProperty().addListener(
+                (observable) -> scrollPane.setVvalue(1.0)
+        );
 
-        sendButton.setOnMouseClicked(event -> handleUserInput());
+        // Input handlers
+        sendButton.setOnAction(event -> handleUserInput());
         userInput.setOnAction(event -> handleUserInput());
     }
 
@@ -79,11 +103,11 @@ public class Gui extends Application {
         String input = userInput.getText().trim();
         if (input.isEmpty()) return;
 
-        // Show user text
         guiUi.appendMessage(input, true);
 
-        // Bot processes command and writes all messages to GUI directly
-        bot.processCommand(input);
+        PauseTransition pause = new PauseTransition(Duration.seconds(0.3));
+        pause.setOnFinished(event -> bot.processCommand(input));
+        pause.play();
 
         userInput.clear();
     }
@@ -91,11 +115,5 @@ public class Gui extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
 }
-
-
-
-
-
-
-
