@@ -32,4 +32,17 @@ class AddTodoCommandTest {
         assertTrue(ui.messages.stream().anyMatch(msg ->
                 msg.contains("todo cannot be empty")));
     }
+
+    @Test
+    public void execute_validTodo_taskAdded() {
+        TaskList tasks = new TaskList();
+        Storage storage = null;
+        IUi ui = new Ui();
+
+        AddTodoCommand cmd = new AddTodoCommand("read book");
+        cmd.execute(tasks, ui, storage);
+
+        assertEquals(1, tasks.size());
+        assertEquals("read book", tasks.get(0).getDescription());
+    }
 }

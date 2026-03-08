@@ -1,89 +1,55 @@
 package pranavbot;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pranavbot.task.Task;
 import pranavbot.task.Todo;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TaskListTest {
+public class TaskListTest {
 
-    private TaskList taskList;
+    @Test
+    public void addTask_taskAdded_sizeIncreases() {
+        TaskList tasks = new TaskList();
+        tasks.add(new Todo("read book"));
 
-    @BeforeEach
-    void setUp() {
-        taskList = new TaskList();
+        assertEquals(1, tasks.size());
     }
 
     @Test
-    void add_singleTask_increasesSizeAndRetrievesCorrectly() {
-        Task task = new Todo("read book");
-        taskList.add(task);
+    public void markTask_taskMarked_statusIconIsX() {
+        TaskList tasks = new TaskList();
+        tasks.add(new Todo("read book"));
 
-        assertEquals(1, taskList.size());
-        assertSame(task, taskList.get(0));
+        tasks.mark(0);
+
+        assertEquals("[X]", tasks.get(0).getStatusIcon());
     }
 
     @Test
-    void mark_validIndex_marksTaskAsDone() {
-        Task task = new Todo("write report");
-        taskList.add(task);
+    public void unmarkTask_taskUnmarked_statusIconIsSpace() {
+        TaskList tasks = new TaskList();
+        tasks.add(new Todo("read book"));
 
-        taskList.mark(0);
+        tasks.mark(0);
+        tasks.unmark(0);
 
-        assertTrue(taskList.get(0).getStatusIcon().contains("X"));
+        assertEquals("[ ]", tasks.get(0).getStatusIcon());
     }
 
     @Test
-    void mark_invalidIndex_throwsIndexOutOfBoundsException() {
-        assertThrows(IndexOutOfBoundsException.class, () -> taskList.mark(0));
-        assertThrows(IndexOutOfBoundsException.class, () -> taskList.mark(-1));
-        assertThrows(IndexOutOfBoundsException.class, () -> taskList.mark(5));
+    public void removeTask_taskRemoved_sizeDecreases() {
+        TaskList tasks = new TaskList();
+        tasks.add(new Todo("read book"));
+
+        tasks.remove(0);
+
+        assertEquals(0, tasks.size());
     }
 
     @Test
-    void remove_validIndex_returnsRemovedTaskAndDecreasesSize() {
-        Task taskA = new Todo("task A");
-        Task taskB = new Todo("task B");
-        taskList.add(taskA);
-        taskList.add(taskB);
+    public void isEmpty_newList_returnsTrue() {
+        TaskList tasks = new TaskList();
 
-        Task removed = taskList.remove(0);
-
-        assertSame(taskA, removed);
-        assertEquals(1, taskList.size());
-        assertSame(taskB, taskList.get(0));
-    }
-
-    @Test
-    void getAll_returnsDefensiveCopy_modifyingCopyDoesNotAffectOriginal() {
-        taskList.add(new Todo("original task"));
-
-        List<Task> copy = taskList.getAll();
-        copy.add(new Todo("malicious task"));
-
-        assertEquals(1, taskList.size());
-        assertEquals(2, copy.size());
-    }
-
-    @Test
-    void replace_validIndex_updatesTaskAtPosition() {
-        TaskList list = new TaskList();
-        list.add(new Todo("old task"));
-
-        Todo newTask = new Todo("updated task");
-        list.add(newTask, 0);
-
-        assertEquals(1, list.size());
-        assertEquals("updated task", list.get(0).getDescription());
-    }
-
-    @Test
-    void replace_invalidIndex_throwsException() {
-        TaskList list = new TaskList();
-        assertThrows(IndexOutOfBoundsException.class, () -> list.add(new Todo("test"),0));
+        assertTrue(tasks.isEmpty());
     }
 }

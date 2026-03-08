@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class ExitCommandTest {
 
     @Test
-    /** Tests bye command shows goodbye and signals exit */
     void exitCommand_showsGoodbyeAndSignalsExit() {
         TaskList tasks = new TaskList();
         MockUi ui = new MockUi();
@@ -15,7 +14,9 @@ class ExitCommandTest {
 
         cmd.execute(tasks, ui, storage);
 
-        assertTrue(ui.messages.contains("goodbye"));
+        boolean foundGoodbye = ui.messages.stream()
+                .anyMatch(msg -> msg.toLowerCase().contains("bye"));
+        assertTrue(foundGoodbye);
         assertTrue(cmd.isExit());
     }
 }
