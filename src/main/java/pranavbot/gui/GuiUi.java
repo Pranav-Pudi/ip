@@ -32,7 +32,7 @@ public class GuiUi implements IUi {
 
     @Override
     public void showWelcome() {
-        appendMessage("Hey there! I'm Pixel 🤖, your task assistant. Ready to tackle your day?", false);
+        appendMessage("Hey there! I'm Pranavbot 🤖, your task assistant. Ready to tackle your day?", false);
     }
 
     @Override
