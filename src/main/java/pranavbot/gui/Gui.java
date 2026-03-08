@@ -3,6 +3,7 @@ package pranavbot.gui;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -79,7 +80,7 @@ public class Gui extends Application {
 
         scene = new Scene(root, 450, 650);
 
-        stage.setTitle("PranavBot Chat");
+        stage.setTitle("Pixel Chatbot 🟦 - Task Assistant");
         stage.setScene(scene);
         stage.show();
 
@@ -97,6 +98,12 @@ public class Gui extends Application {
         // Input handlers
         sendButton.setOnAction(event -> handleUserInput());
         userInput.setOnAction(event -> handleUserInput());
+
+        HBox titleBar = new HBox();
+        titleBar.setStyle("-fx-background-color: #0B93F6; -fx-padding: 10;");
+        Label titleLabel = new Label("Pixel Chatbot 🟦 - Task Assistant");
+        titleLabel.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
+        titleBar.getChildren().add(titleLabel);
     }
 
     private void handleUserInput() {
