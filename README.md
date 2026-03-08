@@ -1,44 +1,48 @@
-# PranavBot project template
+# PranavBot 📌
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
+PranavBot (codename: **Pixel**) is a **personal task management chatbot** built in Java with a modern GUI.  
+It helps you manage todos, deadlines, and events in an interactive chat interface.
 
-## Setting up in IntelliJ
+![Ui.png](docs/Ui.png)
 
-Prerequisites: JDK 21.
+---
 
-1. Open IntelliJ (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project first)
-1. Open the project into IntelliJ as follows:
-   1. Click `Open`.
-   1. Select the project directory, and click `OK`.
-   1. If there are any further prompts, accept the defaults.
-1. Configure the project to use **JDK 21** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
-   In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/PranavBot.java` file, right-click it, and choose `Run PranavBot.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
-   ```
-   Hello from
-    ____        _        
-   |  _ \ _   _| | _____ 
-   | | | | | | | |/ / _ \
-   | |_| | |_| |   <  __/
-   |____/ \__,_|_|\_\___|
-   ```
+## 📝 Features
 
-**Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+### ✅ Task Management
+- **Add tasks**: `todo`, `deadline`, `event`
+- **List tasks**: all tasks appear in a single bubble
+- **Mark/unmark tasks** as done
+- **Delete tasks**
+- **Find tasks** by keywords
 
-## Running Tests
+### 🖥 GUI Features
+- Modern chat-style interface
+- **User & bot message bubbles** with profile avatars
+- Smooth **fade-in and slide animations**
+- Auto-scroll to latest messages
+- Input field with **Enter key support**
+- Messages and lists appear in **single bubbles for clarity**
 
-The project comes with a set of test scripts for different operating systems:
+### 🤖 Personality
+- Bot name: **Pixel**
+- Friendly and motivational messages
+- Clear and colorful error messages
 
-- **MacOS/Linux**: Run the shell script
-  ```bash
-  cd text-ui-test
-  ./runtest.sh
-  ```
+### 💾 Persistence
+- Tasks are saved to local storage
+- Task list persists across program restarts
 
-- **Windows**: Run the batch script
-  ```batch
-  cd text-ui-test
-  runtest.bat
-  ```
+### ⚡ Shortcuts
+- Press **ENTER** to send messages
+- Empty input is ignored automatically
 
-These scripts will compile the source files, run the tests, and compare the output against the expected output.
+---
+
+## 🚀 Quick Start
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/Pranav-Pudi/ip.git
+cd ip
